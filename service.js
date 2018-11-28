@@ -5,32 +5,18 @@ var request = require('request');
 exports.init = function (callback) {
     request('http://2018.breizhcamp.org/json/talks.json', { json: true }, function (err, res, body) {
         if (err) { return console.log('Erreur', err); }
-        talks = talks.concat(body);
-
+        talks = body;
         request('http://2018.breizhcamp.org/json/others.json', { json: true }, function (err, res, body2) {
             if (err) { return console.log('Erreur', err); }
             talks = talks.concat(body2);
-            //console.log(talks);
             callback(talks.length);
+            return talks;
         });
     });
 }
 
-exports.listerSessions = function (callback) {
-    request('http://2018.breizhcamp.org/json/talks.json', { json: true }, function (err, res, body) {
-        if (err) { return console.log('Erreur', err); }
-        console.log(body.forEach(function (element) {
-            element.name.concat(element.speakers);
-        }));
-
-        request('http://2018.breizhcamp.org/json/others.json', { json: true }, function (err, res, body2) {
-            if (err) { return console.log('Erreur', err); }
-            talks = talks.concat(body2);
-            //console.log(talks);
-
-            console.log(body2.forEach(function (element) {
-                element.name.concat(element.speakers);
-            }));
-        });
+exports.listerSessions = function () {
+    talks.forEach(function (element) {
+        console.log(element.name, "(Speakers :", element.speakers + ")\n");
     });
 }
