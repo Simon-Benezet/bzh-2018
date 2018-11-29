@@ -1,35 +1,34 @@
-var service = require('./service')
-var readline = require('readline');
+const service = require('./service')
+const readline = require('readline');
 exports.start = function () {
     Menu()
     function Menu() {
-        console.log('*************************')
+        console.log('_________________________')
         console.log('1. Rafraichir les données');
         console.log('2. Lister les sessions')
         console.log('99. Quitter')
 
-        var menu = readline.createInterface({
+        let menu = readline.createInterface({
             input: process.stdin,
             output: process.stdout
         })
 
-        menu.question("\nChoisissez une option : ", function (saisie) {
+        menu.question("\nChoisissez une option : ", saisie => {
             if (`${saisie}` == 1) {
-                service.init(function (nb) {
-                    console.log('[init]', nb, 'sessions trouvées.', '\n...Données mises à jour')
+                service.init(nb => {
+                    console.log(`[init] ${nb} sessions trouvées.\n...Données mises à jour`)
                 });
                 menu.close();
             }
 
             else if (`${saisie}` == 2) {
-                service.listerSessions(function () {
-                    console.log('[init]', nb, 'sessions trouvées.')
-                })
+                service.listerSessions()
                 menu.close();
             }
 
-            if (`${saisie}` != 99) {
+            if (`${saisie}` == 99) {
                 menu.close();
+                return console.log("vous avez quitté");
             }
             Menu()
         })
