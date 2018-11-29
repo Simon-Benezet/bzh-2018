@@ -6,8 +6,9 @@ exports.start = function () {
     Menu()
     function Menu() {
         console.log('_________________________')
-        console.log('1. Rafraichir les données');
+        console.log('1. Rafraichir les données')
         console.log('2. Lister les sessions')
+        console.log('3. Lister les présentateurs')
         console.log('99. Quitter')
 
         let menu = readline.createInterface({
@@ -28,6 +29,14 @@ exports.start = function () {
                 service.listerSessions()
                     .then(liste => liste.forEach(element => {
                         console.log(element.name)
+                    }))
+                menu.close();
+            }
+
+            else if (`${saisie}` == 3) {
+                service.listerSessions()
+                    .then(liste => liste.forEach(element => {
+                        console.log(element.speakers)
                     }))
                 menu.close();
             }
