@@ -1,5 +1,7 @@
-const service = require('./service')
+const Service = require('./service')
 const readline = require('readline');
+const service = new Service();
+
 exports.start = function () {
     Menu()
     function Menu() {
@@ -15,14 +17,18 @@ exports.start = function () {
 
         menu.question("\nChoisissez une option : ", saisie => {
             if (`${saisie}` == 1) {
-                service.init(nb => {
-                    console.log(`[init] ${nb} sessions trouvées.\n...Données mises à jour`)
-                });
+                service.init()
+                    .then(nb => {
+                        console.log(`[init] ${nb} sessions trouvées.\n...Données mises à jour`)
+                    });
                 menu.close();
             }
 
             else if (`${saisie}` == 2) {
                 service.listerSessions()
+                    .then(liste => liste.forEach(element => {
+                        console.log(element.name)
+                    }))
                 menu.close();
             }
 
